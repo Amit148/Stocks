@@ -35,8 +35,11 @@ public class Starter {
 		
 	public static Logger log = LogManager.getLogger(Starter.class.getName());
 	
+	//String driverpath = "\"C:\\Users\\amiti\\Downloads\\chromedriver_win321.exe\"";
+	//String datapath = "C:\\Users\\amiti\\Downloads\\stocks0812.xls";
+	
 	public static void main(String[] args) {
-		
+		//public void start() {
 		WebDriver driver = new ChromeDriver();
 		HashMap stockmap = new HashMap<String, ArrayList>();
 		//String[] stockname = { "SBIN", "TCS", "NOVOCO" };
@@ -45,11 +48,9 @@ public class Starter {
         report = new ExtentReports("C:\\Users\\amiti\\Downloads\\ExtentReportResults.html");*
         test = report.startTest("ExtentDemo");*/
 		//DOMConfigurator.configure("log4j2.properties");
-	
-		
-		ArrayList <String> stocklist =readexcel();
+		ArrayList <String> stocklist =readexcel(args[1]);
 		//log.info("Excel has read");
-		ChromeSetup(driver);
+		ChromeSetup(driver,args[0]);
 		stockmap = readData(stocklist,driver,stockmap);
 	//	log.info("Started Processing");
 	//	print(stockmap, test);
@@ -60,9 +61,9 @@ public class Starter {
 		
 		
 	}
-	public static  void ChromeSetup(WebDriver driver) {
+	public static  void ChromeSetup(WebDriver driver,String driverpathr) {
 			
-			System.setProperty("WebDriver.chrome.driver", "\"C:\\Users\\amiti\\Downloads\\chromedriver_win321.exe\"");
+			System.setProperty("WebDriver.chrome.driver", driverpathr);
 
 			driver.manage().window().maximize();
 			driver.get("https://www.tickertape.in/");
@@ -71,12 +72,12 @@ public class Starter {
 	}
 		
 	
-	public static ArrayList readexcel() {
+	public static ArrayList readexcel(String datapath) {
 		ArrayList array2 = new ArrayList<String>();
 		
 		try {
 			
-			File file = new File("C:\\Users\\amiti\\Downloads\\stocks0812.xls");
+			File file = new File(datapath);
 			FileInputStream fis = new FileInputStream(file);
 			Workbook stocklist =null;
 			stocklist = new HSSFWorkbook (fis);
